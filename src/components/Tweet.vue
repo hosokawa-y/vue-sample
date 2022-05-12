@@ -1,13 +1,20 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+
 const tweets = ref([{ id: 0, description: 'hello world' }, { id: 1, description: 'this is second tweet' }])
+
 const inputtingDescription = ref<string>('')
 const postTweet = () => {
     const tweet = {id: Math.random(), description: inputtingDescription.value} 
     tweets.value.push(tweet)
     inputtingDescription.value = ''
-    console.log('inputtingDescription:' + inputtingDescription.value)
 }
+
+const deleteTweet = (id: number) => {
+    // 引数で受け取ったidに一致しないtweets.idをもつ要素をフィルターすることで、配列から該当idの要素を削除しているのと同じ動きになる
+    tweets.value = tweets.value.filter(t => t.id !== id)
+}
+
 </script>
 
 <template>
@@ -21,6 +28,7 @@ const postTweet = () => {
             <ul>
                 <li v-for="tweet in tweets" :key="tweet.id" class="tweet-list">
                     <span>{{ tweet.description }}</span>
+                    <button class="delete-button" @click="deleteTweet(tweet.id)">delete</button>
                 </li>
             </ul>
         </div>
@@ -56,8 +64,7 @@ const postTweet = () => {
     padding: 8px 20px;
     width: 300px;
 }
-
-button {
+.save-button {
     background-color: #68c9c9;
     color: #fff;
     border-radius: 2px;
@@ -67,7 +74,20 @@ button {
     margin: 8px;
 }
 
-button:hover {
+.save-button:hover {
     background-color: #37bdbd;
+}
+.delete-button {
+    background-color: #d17959;
+    color: #fff;
+    border-radius: 2px;
+    border: none;
+    width: 60px;
+    height: 22px;
+    margin: 8px;
+}
+
+.delete-button:hover {
+    background-color: #e45b29;
 }
 </style>
