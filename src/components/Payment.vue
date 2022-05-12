@@ -17,21 +17,31 @@ const buy = (itemName: string) => {
     alert('Are you sure to buy ' + itemName + '?')
 }
 
-const input = (event: any) => {
-    // itemName1.value = event.target.value
-    item1.name = event.target.value
-}
+// v-modelを使うと↓は必要ない
+// const input = (event: any) => {
+//     // itemName1.value = event.target.value
+//     item1.name = event.target.value
+// }
 
 const inputPrice = (event: any) => {
     item1.price = event.target.value
+}
+
+const clear = () => {
+    item1.name = ''
+    item1.price = 0
 }
 </script>
 
 <template>
     <div class="container">
         <label>Payment.js</label>
-        <input v-on:input="input" />
-        <input v-on:input="inputPrice" />
+        <!-- 双方向に値をバインドしたい↓ときはv-modelが使える -->
+        <!-- inputに入力するとitem1.nameの値を変える &  item1.nameの値が変わるとinputに表示される内容も変わる-->
+        <input v-model="item1.name" />
+        <!-- <input v-on:input="input" v-bind:value="item1.name"/> -->
+        <input v-on:input="inputPrice" v-bind:value="item1.price"/>
+        <button v-on:click="clear">Clear</button>
         <h1>最近の支出</h1>
         <div class="payment">
             <label>{{ item1.name }}</label>
