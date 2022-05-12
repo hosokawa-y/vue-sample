@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, watch, toRefs } from 'vue'
 
 // itemName1の値が変わったらtemplateを読みなおしてほしいのでrefを使う
 const itemName1 = ref<string>('Desk')
@@ -35,14 +35,30 @@ const clear = () => {
 const budget = 50000
 
 // 何らかの条件を元に値を生成するときはcomputedを使う
-const priceLabel = computed(() => {
-    if (item1.price > budget * 2) {
-        return 'toooo expensive'
-    } else if (item1.price > budget) {
-        return 'to expensive'
+// const priceLabel = computed(() => {
+//     if (item1.price > budget * 2) {
+//         return 'toooo expensive'
+//     } else if (item1.price > budget) {
+//         return 'to expensive'
+//     }
+//     else {
+//         return item1.price + 'yen'
+//     }
+// })
+
+// computedの代わりにwatch()を使って同じことができる
+const priceLabel = ref<string>(item1.price + 'yen')
+// item1.priceのようにリアクティブなオブジェクトの値をwatchに渡したい場合はtoRefs()が必要
+const { price } = toRefs(item1)
+// 第一引数（price）の値が変わると、第二引数の関数が実行される
+watch(price, () => {
+    if (price.value > budget * 2) {
+        priceLabel.value = "toooo expensive"
+    } else if (price.value > budget) {
+        priceLabel.value = 'to expensive'
     }
     else {
-        return item1.price + 'yen'
+        priceLabel.value = price.value + 'yen'
     }
 })
 </script>
