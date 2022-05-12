@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, computed, watch, toRefs } from 'vue'
+import { ref, reactive, computed, watch, toRefs, onMounted, onBeforeMount, onUpdated } from 'vue'
 
 // itemName1の値が変わったらtemplateを読みなおしてほしいのでrefを使う
 const itemName1 = ref<string>('Desk')
@@ -60,6 +60,18 @@ watch(price, () => {
     else {
         priceLabel.value = price.value + 'yen'
     }
+})
+
+onBeforeMount(() => {
+    console.log('before mount')
+})
+
+onMounted(() => {
+    console.log('mounted')
+})
+
+onUpdated(() => {
+    console.log('updated')
 })
 </script>
 
