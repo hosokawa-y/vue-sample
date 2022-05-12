@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
 
 // itemName1の値が変わったらtemplateを読みなおしてほしいのでrefを使う
 const itemName1 = ref<string>('Desk')
@@ -31,6 +31,20 @@ const clear = () => {
     item1.name = ''
     item1.price = 0
 }
+
+const budget = 50000
+
+// 何らかの条件を元に値を生成するときはcomputedを使う
+const priceLabel = computed(() => {
+    if (item1.price > budget * 2) {
+        return 'toooo expensive'
+    } else if (item1.price > budget) {
+        return 'to expensive'
+    }
+    else {
+        return item1.price + 'yen'
+    }
+})
 </script>
 
 <template>
@@ -40,12 +54,13 @@ const clear = () => {
         <!-- inputに入力するとitem1.nameの値を変える &  item1.nameの値が変わるとinputに表示される内容も変わる-->
         <input v-model="item1.name" />
         <!-- <input v-on:input="input" v-bind:value="item1.name"/> -->
-        <input v-on:input="inputPrice" v-bind:value="item1.price"/>
+        <input v-on:input="inputPrice" v-bind:value="item1.price" />
         <button v-on:click="clear">Clear</button>
         <h1>最近の支出</h1>
         <div class="payment">
             <label>{{ item1.name }}</label>
-            <label>{{ item1.price }}円</label>
+            <label>{{ priceLabel }} </label>
+            <!-- <label>{{ item1.price }}円</label> -->
             <!-- v-bind  でscript内に書かれた変数を呼び出す-->
             <a v-bind:href="url1">bought at...</a>
             <!-- v-on  でscript内に書かれた関数を呼び出す-->
