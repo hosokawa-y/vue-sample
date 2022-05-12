@@ -25,7 +25,10 @@ const deleteTweet = (id: number) => {
             <button class="save-button" @click="postTweet">post</button>
         </div>
         <div class="tweet-container">
-            <ul>
+            <!-- tweets.lengthが0以下ならメッセージを表示 v-showでも同じことができる-->
+            <p v-if="tweets.length <= 0">No tweets have been added</p>
+            <!-- tweets.lengthが1以上ならリストを表示 v-elseはなくてもよいが、あったほうが明示的-->
+            <ul v-else>
                 <li v-for="tweet in tweets" :key="tweet.id" class="tweet-list">
                     <span>{{ tweet.description }}</span>
                     <button class="delete-button" @click="deleteTweet(tweet.id)">delete</button>
