@@ -1,13 +1,21 @@
 <script setup lang="ts">
-const tweets = [{ id: '0', description: 'hello world' }, { id: '1', description: 'this is second tweet' }]
+import { ref } from 'vue'
+const tweets = ref([{ id: 0, description: 'hello world' }, { id: 1, description: 'this is second tweet' }])
+const inputtingDescription = ref<string>('')
+const postTweet = () => {
+    const tweet = {id: Math.random(), description: inputtingDescription.value} 
+    tweets.value.push(tweet)
+    inputtingDescription.value = ''
+    console.log('inputtingDescription:' + inputtingDescription.value)
+}
 </script>
 
 <template>
     <div class="container">
         <h1>Tweeter</h1>
         <div class="form-container">
-            <input />
-            <button class="save-button">post</button>
+            <input v-model="inputtingDescription" />
+            <button class="save-button" @click="postTweet">post</button>
         </div>
         <div class="tweet-container">
             <ul>
@@ -39,5 +47,27 @@ const tweets = [{ id: '0', description: 'hello world' }, { id: '1', description:
 
 .tweet-list {
     list-style: none;
+    margin-bottom: 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(170, 203, 233);
+    padding: 8px 20px;
+    width: 300px;
+}
+
+button {
+    background-color: #68c9c9;
+    color: #fff;
+    border-radius: 2px;
+    border: none;
+    width: 60px;
+    height: 22px;
+    margin: 8px;
+}
+
+button:hover {
+    background-color: #37bdbd;
 }
 </style>
