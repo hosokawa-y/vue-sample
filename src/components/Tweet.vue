@@ -31,6 +31,10 @@ const deleteTweet = (id: number) => {
                 <!-- 親コンポーネントTweetが持っているtweetsを子コンポーネントTweetListに渡す -->
                 <!-- TweetListから受け取ったdelete-tweet(実際の値はid)をdeleteTweetにわたす -->
                 <TweetList :tweets="tweets" @delete-tweet="deleteTweet"/>
+                <!-- emitを使わずに子から親にイベントを渡す方法 -->
+                <!-- :delete-tweetはTweetListで定義したPropsのdeleteTweetのこと。ケバブ記法で書き換えただけ。 -->
+                <!-- TweetListでPropsで渡ってきたdeleteTweetはTweet.vueのdeleteTweetのことなので削除ボタンが押されたらdeleteTweetが呼ばれる -->
+                <!-- <TweetList :tweets="tweets" :delete-tweet="deleteTweet"/> -->
             </ul>
         </div>
     </div>

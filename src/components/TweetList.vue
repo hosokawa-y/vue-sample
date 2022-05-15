@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineProps } from 'vue';
+// import { defineProps } from 'vue';
 
 type Tweet = {
     id: number,
@@ -19,6 +19,14 @@ const emit = defineEmits(['delete-tweet'])
 const deleteTweet = (id: number ) => {
     emit('delete-tweet', id)
 }
+
+// emitを使わずに子から親にイベントを伝える方法（vueでは非推奨）
+// type Props = {
+//     tweets: Tweet[]
+//     deleteTweet: (id: number) => void
+// }
+
+// defineProps<Props>()
 
 </script>
 
