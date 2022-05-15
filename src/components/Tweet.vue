@@ -6,10 +6,9 @@ import TweetList from './TweetList.vue';
 const tweets = ref([{ id: 0, description: 'hello world' }, { id: 1, description: 'this is second tweet' }])
 
 const inputtingDescription = ref<string>('')
-const postTweet = () => {
-    const tweet = { id: Math.random(), description: inputtingDescription.value }
+const postTweet = (description: string) => {
+    const tweet = { id: Math.random(), description}
     tweets.value.push(tweet)
-    inputtingDescription.value = ''
 }
 
 const deleteTweet = (id: number) => {
@@ -22,14 +21,16 @@ const deleteTweet = (id: number) => {
 <template>
     <div class="container">
         <h1>Tweeter</h1>
-        <TweetPostForm />
+        <!-- TweetPostFormから受け取ったpost-tweet（実際の値はinputtingDescription.value）をpostTweet関数に渡している -->
+        <TweetPostForm @post-tweet="postTweet"/>
         <div class="tweet-container">
             <!-- tweets.lengthが0以下ならメッセージを表示 v-showでも同じことができる-->
             <p v-if="tweets.length <= 0">No tweets have been added</p>
             <!-- tweets.lengthが1以上ならリストを表示 v-elseはなくてもよいが、あったほうが明示的-->
             <ul v-else>
                 <!-- 親コンポーネントTweetが持っているtweetsを子コンポーネントTweetListに渡す -->
-                <TweetList :tweets="tweets" />
+                <!-- TweetListから受け取ったdelete-tweet(実際の値はid)をdeleteTweetにわたす -->
+                <TweetList :tweets="tweets" @delete-tweet="deleteTweet"/>
             </ul>
         </div>
     </div>

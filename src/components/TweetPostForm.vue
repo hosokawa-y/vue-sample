@@ -1,8 +1,11 @@
 <script setup lang="ts">
-import{ref} from 'vue'
+import { ref } from 'vue'
 const inputtingDescription = ref<string>('')
-const postTweet = () => {
 
+const emit = defineEmits(['post-tweet'])
+// 'post-tweet'という名前でinputtingDescription.valueを親コンポーネントに伝える
+const postTweet = () => {
+    emit('post-tweet', inputtingDescription.value)
 }
 </script>
 

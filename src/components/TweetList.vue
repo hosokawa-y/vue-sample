@@ -9,11 +9,16 @@ type Tweet = {
 type Props = {
     tweets: Tweet[]
 }
-const deleteTweet = (id: number ) => {}
 
 // definePropsでPropsを使える
 // 子コンポーネントは受けとったpropsを画面に表示するだけにしておくべき。何らかの処理を加えるべきじゃない。
 defineProps<Props>()
+
+const emit = defineEmits(['delete-tweet'])
+// 'delete-tweet'という名前でidを親コンポーネントに伝える
+const deleteTweet = (id: number ) => {
+    emit('delete-tweet', id)
+}
 
 </script>
 
