@@ -4,13 +4,13 @@
 import HelloWorld from './components/HelloWorld.vue'
 import Payment from './components/Payment.vue';
 import Tweet from './components/Tweet.vue'
+import Persons from './components/Persons.vue'
 </script>
 
 <template>
-  <!-- <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" /> -->
   <!-- <Payment /> -->
-  <Tweet />
+  <!-- <Tweet /> -->
+  <Persons />
 </template>
 
 <style>
