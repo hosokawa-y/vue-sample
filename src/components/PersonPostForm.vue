@@ -1,15 +1,30 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 const inputtingName = ref<string>('')
 const inputtingAge = ref<number>(0)
 
-const emit =defineEmits(["register"])
+const emit = defineEmits(["register"])
 
 const register = () => {
-    const person = { id: Math.random(), name: inputtingName.value, age: inputtingAge.value}
+    const person = { id: Math.random(), name: inputtingName.value, age: inputtingAge.value }
     console.log("person: ", person)
     emit("register", person)
 }
+
+const nameLengthLimit = 15
+
+const isValidName = computed(() => {
+    if (inputtingName.value.length > nameLengthLimit) {
+        return false
+    } else {
+        return true
+    }
+})
+
+const color = computed(() => {
+    return isValidName.value ? "white" : "rgb(244, 194, 190)"
+})
+
 
 </script>
 
@@ -18,14 +33,16 @@ const register = () => {
         <div class="input-container">
             <div class="input-column">
                 <span>name:</span>
-                <input class="input" v-model="inputtingName" />
+                <input class="input-name" v-model="inputtingName" />
             </div>
+            <span class="error-message" v-if="!isValidName">{{ nameLengthLimit }} characters or less, please</span>
             <div class="input-column">
                 <span>age:</span>
-                <input class="input" v-model="inputtingAge" type="number"/>
+                <input class="input" v-model="inputtingAge" type="number" />
             </div>
         </div>
-        <button @click="register" class="register-button">register</button>
+        <!-- 入力された文字数が15文字より多かったらregisterボタンを非活性化する -->
+        <button :disabled="!isValidName" @click="register" class="register-button">register</button>
     </div>
 </template>
 
@@ -58,6 +75,11 @@ const register = () => {
 
 }
 
+/* 変数で定義した色で動的にスタイリングする */
+.input-name {
+    background-color: v-bind(color);
+}
+
 input {
     width: 120px;
     margin-bottom: 8px;
@@ -66,5 +88,10 @@ input {
 span {
     font-size: 20px;
     font-weight: bold;
+}
+
+.error-message {
+    font-size: 12px;
+    color: rgb(244, 194, 190)
 }
 </style>
